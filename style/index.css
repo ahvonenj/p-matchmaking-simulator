@@ -3,6 +3,8 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+
+	font-family: Verdana, Tahoma, Arial;
 }
 
 html, body
@@ -17,6 +19,8 @@ html, body
 	height: 100%;
 
 	padding: 10px;
+
+	background-color: #1E1E20;
 }
 
 #head-wrapper
@@ -24,7 +28,11 @@ html, body
 	width: 100%;
 	height: 35px;
 
-	border: 1px solid black;
+	color: #DC3522;
+	background-color: #374140;
+
+	line-height: 35px;
+	padding-left: 10px;
 }
 
 #wrapper-inner
@@ -54,26 +62,8 @@ html, body
     align-items: stretch;
 }
 
-#client-wrapper
-{
-
-}
-
-#server-wrapper
-{
-	margin-left: 10px;
-	margin-right: 10px;
-}
-
-#matchmaker-wrapper
-{
-
-}
-
 .simulator-wrapper
-{
-	border: 1px solid black;
-	
+{	
 	-webkit-order: 0;
     -ms-flex-order: 0;
     order: 0;
@@ -89,19 +79,90 @@ html, body
 {
 	width: 100%;
 	height: 35px;
-	border: 1px solid black;
 }
 
 .sim-wrapper-content
 {
 	width: 100%;
 	height: calc(100% - 35px - 100px);
-	border: 1px solid black;
 }
 
 .sim-wrapper-footer
 {
 	width: 100%;
 	height: 100px;
-	border: 1px solid black;
+}
+
+.simulator-log
+{
+	width: 100%;
+	height: 100%;
+
+	color: #D9CB9E;
+	background-color: #2A2C2B;
+
+	padding: 10px;
+
+	border: 0;
+	outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none;
+}
+
+
+
+
+/* SCROLLBAR OVERRIDE */
+::-webkit-scrollbar 
+{
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-button 
+{
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb 
+{
+  background: #DC3522;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover 
+{
+  background: #DC3522;
+}
+
+::-webkit-scrollbar-thumb:active 
+{
+  background: #DC3522;
+}
+
+::-webkit-scrollbar-track 
+{
+  background: #1E1E20;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover 
+{
+  background: #1E1E20;
+}
+
+::-webkit-scrollbar-track:active 
+{
+  background: #1E1E20;
+}
+
+::-webkit-scrollbar-corner 
+{
+  background: transparent;
 }

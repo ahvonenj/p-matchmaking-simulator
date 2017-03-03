@@ -5,6 +5,9 @@
 
 		<!-- CSS -->
 		<link rel = "stylesheet" type = "text/css" href = "style/index.css">
+		<link rel = "stylesheet" type = "text/css" href = "style/client.css">
+		<link rel = "stylesheet" type = "text/css" href = "style/server.css">
+		<link rel = "stylesheet" type = "text/css" href = "style/matchmaker.css">
 
 		<!-- JS LIB -->
 		<script src = "./script/lib/jquery-3.1.1.min.js"></script>
@@ -15,36 +18,39 @@
 		<script src = "./script/class/program.js"></script>
 		<script src = "./script/class/server.js"></script>
 		<script src = "./script/class/matchmaker.js"></script>
+		<script src = "./script/class/clienthandler.js"></script>
 		<script src = "./script/class/client.js"></script>
+
+		<script src = "./script/index.js"></script>
 
 	</head>
 	<body>
 		<div id = "wrapper">
 			<div id = "head-wrapper">
-
+				<p id = "head">Matchmaking Simulator v0.1</p>
 			</div>
 			<div id = "wrapper-inner">
-				<div id = "client-wrapper" class = "simulator-wrapper">
-					<div id = "client-wrapper-head" class = "sim-wrapper-head">
-
+				<div id = "clienthandler-wrapper" class = "simulator-wrapper">
+					<div id = "clienthandler-wrapper-head" class = "sim-wrapper-head">
+						<p id = "clienthandler-head">Clienthandler</p>
 					</div>
 
-					<div id = "client-wrapper-content" class = "sim-wrapper-content">
-
+					<div id = "clienthandler-wrapper-content" class = "sim-wrapper-content">
+						<textarea id = "clienthandler-log" class = "simulator-log"></textarea>
 					</div>
 
-					<div id = "client-wrapper-footer" class = "sim-wrapper-footer">
+					<div id = "clienthandler-wrapper-footer" class = "sim-wrapper-footer">
 
 					</div>
 				</div>
 
 				<div id = "server-wrapper" class = "simulator-wrapper">
 					<div id = "server-wrapper-head" class = "sim-wrapper-head">
-
+					<p id = "server-head">Server</p>
 					</div>
 
 					<div id = "server-wrapper-content" class = "sim-wrapper-content">
-
+						<textarea id = "server-log" class = "simulator-log"></textarea>
 					</div>
 
 					<div id = "server-wrapper-footer" class = "sim-wrapper-footer">
@@ -54,11 +60,11 @@
 
 				<div id = "matchmaker-wrapper" class = "simulator-wrapper">
 					<div id = "matchmaker-wrapper-head" class = "sim-wrapper-head">
-
+						<p id = "matchmaker-head">Matchmaker</p>
 					</div>
 
 					<div id = "matchmaker-wrapper-content" class = "sim-wrapper-content">
-
+						<textarea id = "matchmaker-log" class = "simulator-log"></textarea>
 					</div>
 
 					<div id = "matchmaker-wrapper-footer" class = "sim-wrapper-footer">
@@ -67,15 +73,5 @@
 				</div>
 			</div>
 		</div>
-
-
-		<script>
-			var program = null;
-
-			$(document).ready(function()
-			{
-				program = new Program();
-			});
-		</script>
 	</body>
 </html>

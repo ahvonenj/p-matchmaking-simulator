@@ -1,0 +1,26 @@
+#server-wrapper
+{
+	margin-left: 10px;
+	margin-right: 10px;
+
+	color: #DC3522;
+	background-color: #2A2C2B;
+}
+
+#server-wrapper-head
+{
+	line-height: 35px;
+	padding-left: 10px;
+
+	background-color: #374140;
+}
+
+#server-wrapper-content
+{
+	
+}
+
+#server-wrapper-footer
+{
+	background-color: #374140;
+}
