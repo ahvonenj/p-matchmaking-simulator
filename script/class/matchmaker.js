@@ -24,4 +24,5 @@ Matchmaker.prototype._log = function(str)
 	var v = this.$log.val();
 	v += str + '\n';
 	this.$log.val(v);
+	this.$log.scrollTop(this.$log[0].scrollHeight);
 }

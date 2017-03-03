@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 	<head>
+		<meta charset = "UTF-8">
+
 		<title>Matchmaking Simulator</title>
 
 		<!-- CSS -->
@@ -15,6 +17,7 @@
 		<script src = "./script/lib/chance.min.js"></script>
 
 		<!-- JS -->
+		<script src = "./script/class/events.js"></script>
 		<script src = "./script/class/global.js"></script>
 		<script src = "./script/class/utility.js"></script>
 		<script src = "./script/class/program.js"></script>
@@ -49,17 +52,29 @@
 						</div>
 
 						<div id = "clienthandler-input-group-b" class = "clienthandler-input-group">
-							<select id = "client-select-1"></select>
-							<select id = "client-select-2"></select>
+							<select id = "client-select-single"></select>
+							<input type = "button" id = "print-client-btn" value = "Print client"/>
 							<input type = "button" id = "remove-client-btn" value = "Remove client"/>
 						</div>
 
 						<div id = "clienthandler-input-group-c" class = "clienthandler-input-group">
-							
+							<select id = "client-select-multi-1"></select>
+							<span class = "input-arrow">&rarr;</span>
+							<select id = "client-select-multi-2"></select>
 						</div>
 
 						<div id = "clienthandler-input-group-d" class = "clienthandler-input-group">
+							<input type = "button" id = "clients-group" value = "Group clients"/>
+							<input type = "button" id = "clients-ungroup" value = "Ungroup clients"/>
+						</div>
+
+						<div id = "clienthandler-input-group-e" class = "clienthandler-input-group">
+
+						</div>
+
+						<div id = "clienthandler-input-group-f" class = "clienthandler-input-group">
 							<input type = "button" id = "client-clear-console" value = "Clear output"/>
+
 						</div>
 					</div>
 				</div>
@@ -75,7 +90,9 @@
 
 					<div id = "server-wrapper-footer" class = "sim-wrapper-footer">
 						<div id = "server-input-group-a" class = "server-input-group">
-							
+							<select id = "server-select-single"></select>
+							<input type = "button" id = "connect-client-btn" value = "Connect client"/>
+							<input type = "button" id = "disconnect-client-btn" value = "Disconnect client"/>
 						</div>
 
 						<div id = "server-input-group-b" class = "server-input-group">
@@ -87,6 +104,14 @@
 						</div>
 
 						<div id = "server-input-group-d" class = "server-input-group">
+							
+						</div>
+
+						<div id = "server-input-group-e" class = "server-input-group">
+							
+						</div>
+
+						<div id = "server-input-group-f" class = "server-input-group">
 							<input type = "button" id = "server-clear-console" value = "Clear output"/>
 						</div>
 					</div>
@@ -115,6 +140,14 @@
 						</div>
 
 						<div id = "matchmaker-input-group-d" class = "matchmaker-input-group">
+							
+						</div>
+
+						<div id = "matchmaker-input-group-e" class = "matchmaker-input-group">
+							
+						</div>
+
+						<div id = "matchmaker-input-group-f" class = "matchmaker-input-group">
 							<input type = "button" id = "matchmaker-clear-console" value = "Clear output"/>
 						</div>
 					</div>

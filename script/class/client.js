@@ -8,6 +8,7 @@ function Client(id, stats, clienthandler)
 	this.simpleid = this.id.substring(0, this.id.indexOf('-'));
 	this.humanid = chance.name({ nationality: 'en' });
 	this.id2 = this.simpleid + ' | ' + this.humanid;
+	this.id3 = this.simpleid + ' | ' + this.humanid.substring(0, this.humanid.indexOf(' '));
 
 	if(stats === null)
 	{
@@ -23,7 +24,8 @@ function Client(id, stats, clienthandler)
 
 	this.connection = 
 	{
-		isConnected: false
+		isConnected: false,
+		server: null
 	}
 
 	this.group = 
@@ -75,16 +77,7 @@ Client.prototype._log = function(str)
 
 Client.prototype.Connect = function(server)
 {
-	if(server.RequestConnection(this))
-	{
-		this.connection.isConnected = true;
-		return true;
-	}
-	else
-	{
-		this.connection.isConnected = false;
-		return false;
-	}
+	return server.RequestConnection(this);
 }
 
 Client.prototype.InviteGroup = function(conn2)
@@ -224,4 +217,10 @@ Client.prototype.RemoveMember = function(conn2)
 {
 	if(typeof this.group.members[conn2.id] !== 'undefined')
 		delete this.group.members[conn2.id];
+}
+
+Client.prototype.Remove = function()
+{
+	this.LeaveGroup();
+	this.connections.server.Disconnect(this);
 }
