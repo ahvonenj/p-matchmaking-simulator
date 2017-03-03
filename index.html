@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Matchmaking Simulator</title>
+
+		<!-- CSS -->
+		<link rel = "stylesheet" type = "text/css" href = "style/index.css">
+
+		<!-- JS LIB -->
+		<script src = "./script/lib/jquery-3.1.1.min.js"></script>
+
+		<!-- JS -->
+		<script src = "./script/class/global.js"></script>
+		<script src = "./script/class/utility.js"></script>
+		<script src = "./script/class/program.js"></script>
+		<script src = "./script/class/server.js"></script>
+		<script src = "./script/class/matchmaker.js"></script>
+		<script src = "./script/class/client.js"></script>
+
+	</head>
+	<body>
+		<div id = "wrapper">
+
+		</div>
+
+
+		<script>
+			var program = null;
+
+			$(document).ready(function()
+			{
+				program = new Program();
+			});
+		</script>
+	</body>
+</html>
