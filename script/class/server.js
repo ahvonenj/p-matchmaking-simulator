@@ -18,7 +18,7 @@ Server.prototype.Start = function()
 
 Server.prototype.RequestConnection = function(client)
 {
-	var s = 'Client (' + client.id + ') connecting... ';
+	var s = 'Client (' + client.id2 + ') connecting... ';
 	
 
 	if(typeof this.connections[client.id] === 'undefined')

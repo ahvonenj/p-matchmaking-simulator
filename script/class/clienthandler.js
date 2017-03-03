@@ -19,7 +19,7 @@ ClientHandler.prototype.Start = function()
 ClientHandler.prototype.GenerateRandomClient = function()
 {
 	var uuid = Utility.UUID();
-	var client = new Client(uuid);
+	var client = new Client(uuid, this);
 
 	return client;
 }
@@ -60,9 +60,9 @@ ClientHandler.prototype.ConnectAll = function()
 	_.each(self.clientlist, function(client)
 	{
 		if(client.Connect(self.server))
-			self._log('Connecting client (' + client.id + ')... connection accepted');
+			self._log('Connecting client (' + client.id2 + ')... connection accepted');
 		else
-			self._log('Connecting client (' + client.id + ')... connection refused');
+			self._log('Connecting client (' + client.id2 + ')... connection refused');
 	});
 
 	this._log('All clients connected');
