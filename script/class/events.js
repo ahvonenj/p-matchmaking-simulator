@@ -46,11 +46,21 @@ Events.BindAllEvents = function()
 	$('#connect-client-btn').on('click', function()
 	{
 		Events.Defaults('Connect client');
+		
+		var client = program.clienthandler.GetClient($('#server-select-single').val());
+
+		$.when(program.server.RequestConnection(client)).then(function(success)
+		{
+
+		});
 	});
 
 	$('#disconnect-client-btn').on('click', function()
 	{
 		Events.Defaults('Disconnect client');
+
+		var client = program.clienthandler.GetClient($('#server-select-single').val());
+		program.server.Disconnect(client);
 	});
 
 

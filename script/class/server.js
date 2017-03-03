@@ -28,7 +28,7 @@ Server.prototype.RequestConnection = function(client)
 	{
 		if(client.connection.isConnected)
 		{
-			self._log('Client (' + client.id2 + ') REFUSED, already connected');
+			self._log('Client (' + client.id2 + ') REFUSED, already connected (1)');
 			$conn_def.resolve(false);
 			return;
 		}
@@ -42,7 +42,7 @@ Server.prototype.RequestConnection = function(client)
 		}
 		else
 		{
-			self._log('Client (' + client.id2 + ') REFUSED');
+			self._log('Client (' + client.id2 + ') REFUSED, already connected (2)');
 			$conn_def.resolve(false);
 			return;
 		}
@@ -62,7 +62,8 @@ Server.prototype.Disconnect = function(client)
 	}
 	else
 	{
-		delete this.connections(client.id);
+		this.connections[client.id].Disconnect();
+		delete this.connections[client.id];
 		this._log(s + 'disconnected');
 		return true;
 	}

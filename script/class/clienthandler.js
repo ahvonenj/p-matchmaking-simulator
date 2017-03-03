@@ -105,6 +105,8 @@ ClientHandler.prototype.ConnectAll = function()
 
 	_.each(self.clientlist, function(client)
 	{
+		self._log('Connecting client (' + client.id2 + ')');
+
 		(function(client)
 		{
 			$.when(client.Connect(self.server)).then(function(connected)
@@ -113,18 +115,24 @@ ClientHandler.prototype.ConnectAll = function()
 				{
 					client.connection.server = self.server;
 					client.connection.isConnected = true;
-					self._log('Connecting client (' + client.id2 + ')... connection accepted');
+					self._log('Client (' + client.id2 + ') connection accepted');
 				}
 				else
 				{
-					self._log('Connecting client (' + client.id2 + ')... connection refused');
+					self._log('Client (' + client.id2 + ') connection refused');
 				}
 			});
 		})(client);
 		
 	});
+}
 
-	this._log('All clients connected');
+ClientHandler.prototype.GetClient = function(clientid)
+{
+	if(typeof this.clientlist[clientid] !== 'undefined')
+		return this.clientlist[clientid];
+	else
+		return null;
 }
 
 
