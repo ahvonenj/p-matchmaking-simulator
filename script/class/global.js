@@ -1,4 +1,7 @@
 var Global = 
 {
-	
+	MAX_GROUP_MEMBERS: 5,
+
+	MIN_CLIENT_LEVEL: 1,
+	MAX_CLIENT_LEVEL: 100
 }

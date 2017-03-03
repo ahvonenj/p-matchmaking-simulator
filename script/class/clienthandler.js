@@ -19,7 +19,14 @@ ClientHandler.prototype.Start = function()
 ClientHandler.prototype.GenerateRandomClient = function()
 {
 	var uuid = Utility.UUID();
-	var client = new Client(uuid, this);
+	var client = new Client
+	(
+		uuid, 
+		{ 
+			level: chance.integer({ min: Global.MIN_CLIENT_LEVEL, max: Global.MAX_CLIENT_LEVEL })
+		},
+		this
+	);
 
 	return client;
 }
@@ -35,6 +42,7 @@ ClientHandler.prototype._generateClients = function(n)
 		var client = this.GenerateRandomClient();
 		clients[client.id] = client;
 		this._log('Generated client ' + i + ' with UUID: ' + client.id);
+		this._log(client.toString());
 	}
 
 	for(var key in clients)

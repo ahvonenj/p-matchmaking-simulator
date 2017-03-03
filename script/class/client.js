@@ -1,4 +1,4 @@
-function Client(id, clienthandler)
+function Client(id, stats, clienthandler)
 {
 	var self = this;
 
@@ -8,6 +8,18 @@ function Client(id, clienthandler)
 	this.simpleid = this.id.substring(0, this.id.indexOf('-'));
 	this.humanid = chance.name({ nationality: 'en' });
 	this.id2 = this.simpleid + ' | ' + this.humanid;
+
+	if(stats === null)
+	{
+		this.stats = 
+		{
+			level: 0
+		}
+	}
+	else
+	{
+		this.stats = stats;
+	}
 
 	this.connection = 
 	{
@@ -20,6 +32,36 @@ function Client(id, clienthandler)
 		isLeader: false,
 		members: {}
 	}
+}
+
+Client.prototype.toString = function(full)
+{
+	full = full || false;
+
+	if(full)
+	{
+		var s = '<< Client (' + this.id + ')' + 
+		', Group { isGrouped: ' + this.group.isGrouped +
+		', isLeader: ' + this.group.isLeader + 
+		', Members: ';
+
+		_.each(this.group.members, function(member)
+		{
+			s += '(' + member.simpleid + '[' + member.stats.level + ']), ';
+		});
+
+		s += '}, Stats: { Level: ' + this.stats.level + ' } >>';
+	}
+	else
+	{
+		var s = '<< Client (' + this.id2 + ')' + 
+		', Group { isGrouped: ' + this.group.isGrouped +
+		', isLeader: ' + this.group.isLeader + 
+		', Members: ' + Object.keys(this.group.members).length + 
+		', Stats: { Level: ' + this.stats.level + ' } >>';
+	}
+	
+	return s;
 }
 
 Client.prototype._log = function(str)
