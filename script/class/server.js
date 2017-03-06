@@ -28,7 +28,7 @@ Server.prototype.RequestConnection = function(client)
 	{
 		if(client.connection.isConnected)
 		{
-			var error = new MatchmakingError(1001, true);
+			var error = new MatchmakingError(1001, false);
 			self._log('Client (' + client.id2 + ') ' + error.servermsg);
 			$conn_def.resolve(new Packet(error, client, self));
 			return;
@@ -36,7 +36,7 @@ Server.prototype.RequestConnection = function(client)
 
 		if(typeof self.connections[client.id] === 'undefined')
 		{
-			var error = new MatchmakingError(1000, false);
+			var error = new MatchmakingError(1000, true);
 			self.connections[client.id] = client;
 			self._log('Client (' + client.id2 + ') ' + error.servermsg);
 			$conn_def.resolve(new Packet(error, client, self));
@@ -44,7 +44,7 @@ Server.prototype.RequestConnection = function(client)
 		}
 		else
 		{
-			var error = new MatchmakingError(1001, true);
+			var error = new MatchmakingError(1001, false);
 			self._log('Client (' + client.id2 + ') ' + error.servermsg);
 			$conn_def.resolve(new Packet(error, client, self));
 			return;
@@ -66,14 +66,14 @@ Server.prototype.Disconnect = function(client)
 	{
 		if(typeof self.connections[client.id] === 'undefined')
 		{
-			var error = new MatchmakingError(2001, true);
+			var error = new MatchmakingError(2001, false);
 			self._log('Client (' + client.id2 + ') ' + error.servermsg);
 			$disconn_def.resolve(new Packet(error, client, self));
 			return;
 		}
 		else
 		{
-			var error = new MatchmakingError(2000, false);
+			var error = new MatchmakingError(2000, true);
 			self._log('Client (' + client.id2 + ') ' + error.servermsg);
 			delete self.connections[client.id];
 			$disconn_def.resolve(new Packet(error, client, self));

@@ -32,6 +32,7 @@ function Client(id, stats, clienthandler)
 	{
 		isGrouped: false,
 		isLeader: false,
+		leaderClient: null,
 		members: {}
 	}
 }
@@ -42,17 +43,18 @@ Client.prototype.toString = function(full)
 
 	if(full)
 	{
-		var s = '<< Client (' + this.id + ')' + 
-		', Group { isGrouped: ' + this.group.isGrouped +
-		', isLeader: ' + this.group.isLeader + 
-		', Members: ';
+		var s = '<<\n\tClient: (' + this.id + ')' + 
+		',\n\tName: ' + this.humanid +
+		',\n\tGroup:\n\t{\n\t\tisGrouped: ' + this.group.isGrouped +
+		',\n\t\tisLeader: ' + this.group.isLeader + 
+		',\n\t\tMembers: ';
 
 		_.each(this.group.members, function(member)
 		{
 			s += '(' + member.simpleid + '[' + member.stats.level + ']), ';
 		});
 
-		s += '}, Stats: { Level: ' + this.stats.level + ' } >>';
+		s += '\n\t},\n\tStats:\n\t{\n\t\tLevel: ' + this.stats.level + '\n\t}\n>>';
 	}
 	else
 	{
@@ -89,9 +91,22 @@ Client.prototype.InviteGroup = function(conn2)
 {
 	var self = this;
 
+	if(this.id === conn2.id)
+	{
+		this._log('Client (' + this.id2 + ') cannot invite itself');
+		return false;
+	}
+
+	if(typeof this.group.members[conn2.id] !== 'undefined')
+	{
+		this._log('Client (' + conn2.id2 + ') is already grouped with (' + this.id2 + ')');
+		return false;
+	}
+
 	if(Object.keys(this.group.members) >= Global.MAX_GROUP_MEMBERS)
 	{
 		this._log('Client (' + this.id2 + ') cannot invite (' + conn2.id2 + ') - ' + this.id2 + ' group is full');
+		return false;
 	}
 
 	if(!this.connection.isConnected)
@@ -105,124 +120,66 @@ Client.prototype.InviteGroup = function(conn2)
 		this._log('Client (' + this.id2 + ') cannot invite (' + conn2.id2 + ') - ' + conn2.id2 + ' is not connected');
 		return false;
 	}
-
-	if(this.group.isGrouped)
-	{
-		if(this.group.isLeader)
-		{
-			var group2 = conn2.group;
-
-			_.each(this.group.members, function(member)
-			{
-				member.AddMember(conn2);
-			});
-
-			this.AddMember(conn2);
-		}
-		else
-		{
-
-		}
-	}
-	else
-	{
-		if(conn2.JoinGroup(this))
-		{
-			this.group.isGrouped = true;
-			this.group.isLeader = true;
-			this.group.members[conn2.id] = conn2;
-		}
-	}
 }
 
-Client.prototype.LeaveGroup = function()
+Client.prototype.AddMemberToGroup = function(conn2)
 {
 	var self = this;
+
+	if(this.id === conn2.id)
+	{
+		this._log('Client (' + this.id2 + ') cannot group with itself');
+		return false;
+	}
+
+	if(typeof this.group.members[conn2.id] !== 'undefined')
+	{
+		this._log('Client (' + conn2.id2 + ') is already grouped with (' + this.id2 + ')');
+		return false;
+	}
+
+	if(Object.keys(this.group.members) >= Global.MAX_GROUP_MEMBERS)
+	{
+		this._log('Client (' + this.id2 + ') cannot invite (' + conn2.id2 + '), group is full');
+		return false;
+	}
 
 	if(!this.group.isGrouped)
-		return;
-
-	if(this.group.isLeader)
 	{
-		this.group.isLeader = false;
+		this.group.isGrouped = true;
+		this.group.isLeader = true;
+		conn2.group.isGrouped = true;
+		conn2.group.isLeader = false;
 
-		var leaderAssigned = false;
+		this.group.members[conn2.id] = conn2;
+		conn2.group.members[this.id] = this;
 
-		_.each(this.group.members, function(member)
-		{
-			if(!leaderAssigned)
-			{
-				member.group.isLeader = true;
-				leaderAssigned = true;
-			}
+		this.group.leaderClient = this;
+		conn2.group.leaderClient = this;
 
-			member.UnGroup(self);
-		});
+		this._log('Client (' + this.id2 + ') added (' + conn2.id + ') to group');
+		return true;
 	}
 	else
 	{
 		_.each(this.group.members, function(member)
 		{
-			member.UnGroup(self);
+			member.group.members[conn2.id] = conn2;
+			conn2.group.members[member.id] = member;
 		});
-	}
 
-	this.group.isGrouped = false;
-}
+		conn2.group.isGrouped = true;
+		conn2.group.isLeader = false;
+		conn2.group.leaderClient = this.group.leaderClient;
 
-Client.prototype.UnGroup = function(conn2)
-{
-	this.RemoveMember(conn2);
-
-	if(Object.keys(this.group.members).length === 0)
-	{
-		this.group.isGrouped = false;
-		this.group.isLeader = false;
-	}
-}
-
-Client.prototype.JoinGroup = function(conn2)
-{
-	var self = this;
-
-	if(Object.keys(conn2.group.members) >= Global.MAX_GROUP_MEMBERS)
-	{
-		this._log('Client (' + this.id2 + ') cannot join (' + conn2.id2 + ') - ' + conn2.id2 + ' group is full');
-	}
-
-	if(this.group.isGrouped)
-	{
-		if(typeof conn2.group.members[this.id] !== 'undefined' ||
-			this.group.members[conn2.id] !== 'undefined')
-		{
-			this._log('Client (' + this.id2 + ') is already grouped with (' + conn2.id2 + ')');
-			return false;
-		}
-	}
-
-	this.LeaveGroup();
-
-	_.each(conn2.group.members, function(member)
-	{
-		member.AddMember(self);
-	});
-
-	conn2.addMember(self);
-
-	return true;
-}
-
-Client.prototype.AddMember = function(conn2)
-{
-	if(typeof this.group.members[conn2.id] !== 'undefined')
 		this.group.members[conn2.id] = conn2;
+		conn2.group.members[this.id] = this;
+
+		this._log('Client (' + this.id2 + ') added (' + conn2.id2 + ') to existing group');
+		return true;
+	}
 }
 
-Client.prototype.RemoveMember = function(conn2)
-{
-	if(typeof this.group.members[conn2.id] !== 'undefined')
-		delete this.group.members[conn2.id];
-}
 
 Client.prototype.Remove = function()
 {

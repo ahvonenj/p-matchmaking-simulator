@@ -29,11 +29,20 @@ Events.BindAllEvents = function()
 	$('#print-client-btn').on('click', function()
 	{
 		Events.Defaults('Print client');
+
+		var client = program.clienthandler.GetClient($('#client-select-single').val());
+
+		client._log(client.toString(true));
 	});
 
 	$('#clients-group').on('click', function()
 	{
 		Events.Defaults('Group clients');
+
+		var client1 = program.clienthandler.GetClient($('#client-select-multi-1').val());
+		var client2 = program.clienthandler.GetClient($('#client-select-multi-2').val());
+
+		client1.AddMemberToGroup(client2);
 	});
 
 	$('#clients-ungroup').on('click', function()
