@@ -109,17 +109,17 @@ ClientHandler.prototype.ConnectAll = function()
 
 		(function(client)
 		{
-			$.when(client.Connect(self.server)).then(function(connected)
+			$.when(client.Connect(self.server)).then(function(packet)
 			{
-				if(connected)
+				if(packet.error.success)
 				{
 					client.connection.server = self.server;
 					client.connection.isConnected = true;
-					self._log('Client (' + client.id2 + ') connection accepted');
+					self._log('Client (' + client.id2 + ') ' + packet.error.msg);
 				}
 				else
 				{
-					self._log('Client (' + client.id2 + ') connection refused');
+					self._log('Client (' + client.id2 + ') ' + packet.error.msg);
 				}
 			});
 		})(client);

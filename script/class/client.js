@@ -80,10 +80,9 @@ Client.prototype.Connect = function(server)
 	return server.RequestConnection(this);
 }
 
-Client.prototype.Disconnect = function()
+Client.prototype.Disconnect = function(server)
 {
-	this.connection.isConnected = false;
-	this.connection.server = null;
+	return server.Disconnect(this);
 }
 
 Client.prototype.InviteGroup = function(conn2)

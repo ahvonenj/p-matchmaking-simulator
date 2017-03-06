@@ -28,22 +28,25 @@ Server.prototype.RequestConnection = function(client)
 	{
 		if(client.connection.isConnected)
 		{
-			self._log('Client (' + client.id2 + ') REFUSED, already connected (1)');
-			$conn_def.resolve(false);
+			var error = new MatchmakingError(1001, true);
+			self._log('Client (' + client.id2 + ') ' + error.msg);
+			$conn_def.resolve(new Packet(error, client, self));
 			return;
 		}
 
 		if(typeof self.connections[client.id] === 'undefined')
 		{
+			var error = new MatchmakingError(1000, false);
 			self.connections[client.id] = client;
-			self._log('Client (' + client.id2 + ') CONNECTED');
-			$conn_def.resolve(true);
+			self._log('Client (' + client.id2 + ') ' + error.msg);
+			$conn_def.resolve(new Packet(error, client, self));
 			return;
 		}
 		else
 		{
-			self._log('Client (' + client.id2 + ') REFUSED, already connected (2)');
-			$conn_def.resolve(false);
+			var error = new MatchmakingError(1001, true);
+			self._log('Client (' + client.id2 + ') ' + error.msg);
+			$conn_def.resolve(new Packet(error, client, self));
 			return;
 		}
 	}, this.GetLatency());
@@ -53,20 +56,32 @@ Server.prototype.RequestConnection = function(client)
 
 Server.prototype.Disconnect = function(client)
 {
+	var self = this;
+
 	var s = 'Client (' + client.id2 + ') disconnecting... ';
 
-	if(typeof this.connections[client.id] === 'undefined')
+	var $disconn_def = $.Deferred();
+
+	setTimeout(function()
 	{
-		this._log(s + 'already disconnected');
-		return true;
-	}
-	else
-	{
-		this.connections[client.id].Disconnect();
-		delete this.connections[client.id];
-		this._log(s + 'disconnected');
-		return true;
-	}
+		if(typeof self.connections[client.id] === 'undefined')
+		{
+			var error = new MatchmakingError(2001, true);
+			self._log('Client (' + client.id2 + ') ' + error.msg);
+			$disconn_def.resolve(new Packet(error, client, self));
+			return;
+		}
+		else
+		{
+			var error = new MatchmakingError(2000, false);
+			self._log('Client (' + client.id2 + ') ' + error.msg);
+			delete self.connections[client.id];
+			$disconn_def.resolve(new Packet(error, client, self));
+			return;
+		}
+	}, this.GetLatency());
+
+	return $disconn_def;
 }
 
 Server.prototype.GetLatency = function()

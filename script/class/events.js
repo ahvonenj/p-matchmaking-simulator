@@ -46,12 +46,22 @@ Events.BindAllEvents = function()
 	$('#connect-client-btn').on('click', function()
 	{
 		Events.Defaults('Connect client');
-		
+
 		var client = program.clienthandler.GetClient($('#server-select-single').val());
 
-		$.when(program.server.RequestConnection(client)).then(function(success)
+		$.when(client.Connect(program.server)).then(function(packet)
 		{
+			if(packet.error.success)
+			{
+				client.connection.isConnected = true;
+				client.connection.server = packet.server;
 
+				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+			}
+			else
+			{
+				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+			}
 		});
 	});
 
@@ -60,7 +70,21 @@ Events.BindAllEvents = function()
 		Events.Defaults('Disconnect client');
 
 		var client = program.clienthandler.GetClient($('#server-select-single').val());
-		program.server.Disconnect(client);
+
+		$.when(client.Disconnect(program.server)).then(function(packet)
+		{
+			if(packet.error.success)
+			{
+				client.connection.isConnected = false;
+				client.connection.server = null;
+
+				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+			}
+			else
+			{
+				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+			}
+		});
 	});
 
 
