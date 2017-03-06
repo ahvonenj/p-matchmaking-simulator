@@ -56,11 +56,11 @@ Events.BindAllEvents = function()
 				client.connection.isConnected = true;
 				client.connection.server = packet.server;
 
-				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+				client._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 			}
 			else
 			{
-				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+				client._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 			}
 		});
 	});
@@ -78,11 +78,11 @@ Events.BindAllEvents = function()
 				client.connection.isConnected = false;
 				client.connection.server = null;
 
-				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+				client._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 			}
 			else
 			{
-				client._log('Client (' + client.id2 + ') ' + packet.error.msg);
+				client._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 			}
 		});
 	});

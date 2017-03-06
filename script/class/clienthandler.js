@@ -115,11 +115,11 @@ ClientHandler.prototype.ConnectAll = function()
 				{
 					client.connection.server = self.server;
 					client.connection.isConnected = true;
-					self._log('Client (' + client.id2 + ') ' + packet.error.msg);
+					self._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 				}
 				else
 				{
-					self._log('Client (' + client.id2 + ') ' + packet.error.msg);
+					self._log('Client (' + client.id2 + ') ' + packet.error.clientmsg);
 				}
 			});
 		})(client);
