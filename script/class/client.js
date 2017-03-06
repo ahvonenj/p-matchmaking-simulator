@@ -35,6 +35,11 @@ function Client(id, stats, clienthandler)
 		leaderClient: null,
 		members: {}
 	}
+
+	this.matchmaking = 
+	{
+		isInPool: false
+	}
 }
 
 Client.prototype.toString = function(full)
@@ -54,7 +59,9 @@ Client.prototype.toString = function(full)
 			s += '(' + member.simpleid + '[' + member.stats.level + ']), ';
 		});
 
-		s += '\n\t},\n\tStats:\n\t{\n\t\tLevel: ' + this.stats.level + '\n\t}\n>>';
+		s += '\n\t},\n\tStats:\n\t{\n\t\tLevel: ' + this.stats.level + '\n\t}' + 
+		',\n\tMatchmaking:\n\t{\n\t\t' + 
+		'isInPool: ' + this.matchmaking.isInPool + '\n\t}\n>>';
 	}
 	else
 	{
